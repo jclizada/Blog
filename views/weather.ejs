@@ -1,11 +1,21 @@
-
 <%- include("partials/header"); -%>
     <h1>Weather</h1>
     <p> <%= weatherContent %> </p>
+
     <form action="/weather" method="post">
         <label for="cityInput">City: </label>
-        <input id = "cityInput" type="text" name="cityInput">
-        <button type="submit">Go</button>
+        <input class="form-control" id = "cityInput" type="text" name="cityInput">
+        <button class="btn btn-primary" type="submit">Go</button>
     </form>
+
+    <% cityWeather.forEach(function(weather){ %>
+      <h1>Weather Data for <%=weather.city%> </h1>
+      <h3>The weather is currently <%=weather.weatherDescription%></h3>
+      <h3>The temperature is <%=weather.temp%>°F</h3>
+      <h3>There's a humidity of <%=weather.humidity%>%</h3>
+      <h3>The wind speed is <%=weather.windSpeed%>°</h3>
+      <img src="<%=weather.image%>">
+    <% })%>
+    
 
 <%- include("partials/footer"); -%>

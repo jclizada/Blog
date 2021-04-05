@@ -11,6 +11,7 @@ const https = require("https");
 const homeStartingContent = "Introductory content for my blog. This is the starting page for my daily journal.";
 const aboutContent = "This page describes what the blog is all about and some information about myself.";
 const contactContent = "Brief information about how to contact me via social media.";
+const weatherContent = "Input city name to check the weather."
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 let posts = [];
+let cityWeather = [];
 
 app.get("/", function(req, res){
   res.render("home", {
@@ -40,6 +42,51 @@ app.get("/compose", function(req, res){
   res.render("compose");
 });
 
+app.get("/weather", function(req, res){
+  res.render("weather", {
+    weatherContent: weatherContent,
+    weather: cityWeather
+  });
+
+});
+
+//invoked after hitting go in the html form
+app.post("/weather", function(req, res) {
+    
+    // takes in the city from the html form, display in // console. Takes in as string, ex. for city Kihei
+        var city = String(req.body.cityInput);
+        console.log(req.body.cityInput);
+    
+    //build up the URL for the JSON query, API Key is // secret and needs to be obtained by signup 
+        const units = "imperial";
+        const apiKey = "6d62f9a1bd46c03bae27d573ad2ca32e";
+        const url = "https://api.openweathermap.org/data/2.5/weather?q=" + city +  "&units=" + units + "&APPID=" + apiKey;
+    
+    // this gets the data from Open WeatherPI
+    https.get(url, function(response){
+        console.log(response.statusCode);
+        
+        // gets individual items from Open Weather API
+        response.on("data", function(data){
+            const weatherData = JSON.parse(data);
+            const temp = weatherData.main.temp;
+            const weatherDescription = weatherData.weather[0].description;
+            const icon = weatherData.weather[0].icon;
+            const imageURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+            const humidity = weatherData.main.humidity;
+            const windSpeed = weatherData.wind.speed;
+            
+            // displays the output of the results
+            res.write("<h1> The weather is " + weatherDescription + "<h1>");
+            res.write("<h2>The Temperature in " + city + " is " + temp + " Degrees Fahrenheit<h2>");
+            res.write("<img src=" + imageURL +">");
+            res.write("<h2> The humidity is " + humidity + "%<h2>");
+            res.write("<h2> The wind speed is " + windSpeed + "mph<h2>");
+            res.send();
+        });
+    });
+})
+
 app.post("/compose", function(req, res){
   const post = {
     title: req.body.postTitle,
@@ -47,7 +94,6 @@ app.post("/compose", function(req, res){
   };
 
   posts.push(post);
-
   res.redirect("/");
 
 });

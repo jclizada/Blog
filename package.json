@@ -1,17 +1,28 @@
 {
-  "name": "ejs-challenge",
+  "name": "blog",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Blog Website  Starter code from Udemy Course Section 23 - Big Level Challenge 3",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "request": "^2.88.2",
+    "weather": "^1.0.4"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jclizada/Blog.git"
+  },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "ejs": "^2.6.1",
-    "express": "^4.16.3",
-    "lodash": "latest"
-  }
+  "bugs": {
+    "url": "https://github.com/jclizada/Blog/issues"
+  },
+  "homepage": "https://github.com/jclizada/Blog#readme"
 }

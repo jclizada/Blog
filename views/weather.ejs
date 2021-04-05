@@ -1,0 +1,11 @@
+
+<%- include("partials/header"); -%>
+    <h1>Weather</h1>
+    <p> <%= weatherContent %> </p>
+    <form action="/weather" method="post">
+        <label for="cityInput">City: </label>
+        <input id = "cityInput" type="text" name="cityInput">
+        <button type="submit">Go</button>
+    </form>
+
+<%- include("partials/footer"); -%>
